@@ -1,0 +1,58 @@
+service:
+  name: dynamodb-playground
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-dynamodb-local
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: us-east-1
+  versionFunctions: false
+  stage: ${opt:stage, 'dev'}
+  memorySize: 256
+  timeout: 30
+  environment:
+    stage: ${self:provider.stage}
+
+custom:
+  webpack:
+    packager: "yarn"
+    includeModules: true
+
+  dynamodb:
+    stages:
+      - dev
+    start:
+      port: 8000
+      heapInitial: 200m
+      heapMax: 1g
+      migrate: true
+
+functions:
+  test:
+    handler: src/handler.handler
+    events:
+      - http: GET test
+
+resources:
+  Resources:
+    CashbackTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-${self:provider.stage}-test
+        AttributeDefinitions:
+          - AttributeName: pk1
+            AttributeType: S
+          - AttributeName: sk1
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk1
+            KeyType: HASH
+          - AttributeName: sk1
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

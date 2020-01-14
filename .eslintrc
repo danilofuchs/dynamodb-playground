@@ -1,0 +1,12 @@
+{
+    "extends": [
+        "@ebanx/eslint-config-nba",
+        "@ebanx/eslint-config-nba/node"
+    ],
+    "env": {
+        "mocha": true
+    },
+    "rules": {
+        "@typescript-eslint/ban-ts-ignore": 0
+    }
+}

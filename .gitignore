@@ -1,0 +1,27 @@
+# package directories
+node_modules
+jspm_packages
+
+# nyc directories
+coverage
+.nyc_output
+
+# Serverless directories
+.serverless
+
+# Webpack directories
+.webpack
+dist/
+
+# Dynamodb
+.dynamodb
+
+# Logs files
+*.logs
+
+# local editor configs
+.vscode
+.code-workspace
+
+# mac files
+.DS_Store
